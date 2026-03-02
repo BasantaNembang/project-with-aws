@@ -1,0 +1,93 @@
+.navbar {
+  background: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  padding: 15px 0;
+}
+
+.navContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+}
+
+.logo {
+  font-size: 20px;
+  font-weight: bold;
+  color: var(--primary);
+  text-decoration: none;
+}
+
+.desktopMenu {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.cartLink {
+  position: relative;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.cartBadge {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: var(--danger);
+  color: white;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.hamburger {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #374151;
+}
+
+.mobileMenu {
+  position: absolute;
+  top: 60px;
+  left: 0;
+  right: 0;
+  background: white;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.mobileLogout {
+  text-align: left;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .desktopMenu {
+    display: none;
+  }
+
+  .hamburger {
+    display: block;
+  }
+}
+
+

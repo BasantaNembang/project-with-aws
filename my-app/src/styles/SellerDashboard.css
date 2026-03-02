@@ -1,0 +1,160 @@
+.seller-dashboard {
+  font-family: Arial, sans-serif;
+  color: #333;
+  padding: 40px 20px;
+}
+
+.dashboard-container {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.tabs {
+  display: flex;
+  gap: 15px;
+  border-bottom: 2px solid #e5e7eb;
+  padding-bottom: 10px;
+  margin-bottom: 30px;
+}
+
+.tabs button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding-bottom: 5px;
+  font-size: 16px;
+  border-bottom: 3px solid transparent;
+  transition: all 0.2s;
+  color: #666;
+}
+
+.tabs button.active-tab {
+  font-weight: bold;
+  color: #2563eb;
+  border-bottom: 3px solid #2563eb;
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.orders-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.orders-table th, .orders-table td {
+  padding: 10px;
+  text-align: center;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.product-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: #f9fafb;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.product-form input,
+.product-form textarea,
+.product-form select {
+  padding: 10px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.image-upload input {
+  margin-bottom: 8px;
+}
+
+.image-preview {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.image-preview img {
+  width: 150px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.image-preview button {
+  padding: 5px 10px;
+  border-radius: 4px;
+  border: 1px solid #2563eb;
+  background: #fff;
+  color: #2563eb;
+  cursor: pointer;
+}
+
+.form-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.form-buttons button {
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.form-buttons button:first-child {
+  border: none;
+  background: #2563eb;
+  color: #fff;
+}
+
+.form-buttons button:last-child {
+  border: 1px solid #2563eb;
+  background: #fff;
+  color: #2563eb;
+}
+
+/* Recently Added Section */
+.recently-added {
+  margin-top: 40px;
+}
+
+.recently-added h2 {
+  margin-bottom: 15px;
+  color: #2563eb;
+}
+
+.recent-images {
+  display: flex;
+  gap: 15px;
+  overflow-x: auto;
+  padding-bottom: 10px;
+}
+
+.recent-image-card {
+  min-width: 120px;
+  text-align: center;
+}
+
+.recent-image-card img {
+  width: 100%;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.recent-image-card p {
+  margin-top: 5px;
+  font-size: 14px;
+  word-break: break-word;
+}
+
+.error{
+  color: red;
+}
+
