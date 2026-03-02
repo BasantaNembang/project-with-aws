@@ -1,5 +1,11 @@
 package com.ecommerce.service.Product;
 
+import com.amazonaws.HttpMethod;
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
+import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.amazonaws.services.s3.model.PutObjectResult;
 import com.ecommerce.dto.ProductDTO;
 import com.ecommerce.error.CustomException;
 import com.ecommerce.modal.Product;
@@ -8,11 +14,14 @@ import com.ecommerce.service.Inventory.InventoryServiceImpl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.net.URI;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -29,6 +38,12 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     private InventoryServiceImpl inventoryService;
+
+    @Autowired
+    private AmazonS3 amazonS3;
+
+    @Value("${app.s3.bucket}")
+    private String bucket;
 
     final String basePath = "http://localhost:8080/products/Images/";
 
@@ -47,8 +62,14 @@ public class ProductServiceImpl implements ProductService {
 
         productModal.setId(id);
 
-        String imageURL = saveImage(image);
-        productModal.setImageUrl(imageURL);
+        String imageURL = uploadInAWS(image);
+        String url = preSignedURL(imageURL);
+
+        productModal.setImageUrl(url);
+
+        //to store locally
+        //String imageURL = saveImage(image);
+
 
         //for inventory
         String inventoryID = inventoryService
@@ -66,6 +87,43 @@ public class ProductServiceImpl implements ProductService {
     }
 
 
+    private String uploadInAWS(MultipartFile image)  {
+
+        String originalName = image.getOriginalFilename();
+        String fileExtension = "";
+
+        if (originalName != null && originalName.contains(".")) {
+            fileExtension = originalName.substring(originalName.lastIndexOf("."));
+        }
+
+        String imageName = UUID.randomUUID() + fileExtension;
+
+
+
+        ObjectMetadata metadata = new ObjectMetadata();
+        metadata.setContentLength(image.getSize());
+        metadata.setContentType(image.getContentType());
+
+        try {
+            PutObjectResult putObjectRequest = amazonS3.putObject(bucket, imageName, image.getInputStream(), metadata);
+            return imageName;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+
+    private String preSignedURL(String imageURL) {
+        GeneratePresignedUrlRequest request = new
+                GeneratePresignedUrlRequest(bucket, imageURL)
+                .withMethod(HttpMethod.GET);
+
+        URL url = amazonS3.generatePresignedUrl(request);
+        return url.toString();
+    }
+
+
 
 
     @Override
@@ -77,14 +135,11 @@ public class ProductServiceImpl implements ProductService {
         UrlResource urlResource = null;
         try {
             urlResource = new UrlResource(path.toUri());
+            return urlResource;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
 
-        if (urlResource == null) {
-            throw new CustomException("No image found!!!");
-        }
-        return urlResource;
     }
 
 

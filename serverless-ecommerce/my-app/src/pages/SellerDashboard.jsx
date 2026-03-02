@@ -34,10 +34,6 @@ export default function SellerDashboard() {
   }, [user, navigate]);
 
 
-
-  console.log(user?.email)
-  console.log("hey")
-
   const fetchData = async () => {
     try {
       setLoading(true);
@@ -46,18 +42,13 @@ export default function SellerDashboard() {
 
       // Fetch seller's products
       const productsRes = await api.get(`/products/seller/my-products/${user?.email}`, { headers });
-      console.log("basanta")
-      console.log(productsRes.data)
-      //setProducts(productsRes.data.data || []);
       setProducts(productsRes.data || []);
 
 
-
       // Fetch seller's orders
-      const ordersRes = await api.get('/orders/seller/gagan@gmail.com', { headers });
+      const ordersRes = await api.get(`/orders/seller/${user?.email}`, { headers });
       setOrders(ordersRes.data || []);
     } catch (e) {
-      console.error('Failed to fetch', e);
       toast.error('Failed to load data');
     } finally {
       setLoading(false);
@@ -107,10 +98,8 @@ export default function SellerDashboard() {
         price: parseInt(productData.price),
         stock: parseInt(productData.stock),
         category: productData.category,
-        email: 'gagan@gmail.com'
+        email: user?.email
       };
-      console.log("hey dude.........")
-      console.log(productDTO)
       formData.append('product', JSON.stringify(productDTO));
 
       // Add image (matching @RequestPart("image"))
