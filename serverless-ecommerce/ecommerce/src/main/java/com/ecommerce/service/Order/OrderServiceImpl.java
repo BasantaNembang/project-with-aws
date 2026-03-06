@@ -36,7 +36,6 @@ public class OrderServiceImpl implements OrderService{
         inventoryService.checkAndReduceSTOCK(request.getItems());
 
         Order order = new Order();
-        order.setId(UUID.randomUUID().toString().substring(0, 7));
 
         List<OrderItem> itemsWithSeller = request.getItems().stream()
                 .peek(item -> item.setSeller(productService.getSellerByPID(item.getProductId())))
@@ -44,10 +43,11 @@ public class OrderServiceImpl implements OrderService{
         order.setItems(itemsWithSeller);
 
         // Set other order details
+        //order.setId(UUID.randomUUID().toString().substring(0, 6));
         order.setPaymentMethod(request.getPaymentMethod());
         order.setShippingAddress(request.getShippingAddress());
         order.setOrderStatus("SUCCESS");
-        order.setCreatedAt(Instant.now());
+        order.setCreatedAt(Instant.now().toString());
         order.setUser(request.getUser());
 
         // Calculate total amount if not provided
@@ -62,8 +62,8 @@ public class OrderServiceImpl implements OrderService{
     }
 
     @Override
-    public List<OrderResponse> getOrders(String email) {
-        List<Order> orders = orderRepo.findAllByUser(email);
+    public List<OrderResponse> getOrders(String user) {
+        List<Order> orders = orderRepo.findAllByUser(user);
 
         List<OrderResponse> responses = new ArrayList<>();
         for (Order o : orders) {
@@ -77,7 +77,7 @@ public class OrderServiceImpl implements OrderService{
                     .items(o.getItems())
                     .orderStatus(o.getOrderStatus())
                     .totalAmount(totalAmount)
-                    .createdAt(o.getCreatedAt())
+                    .createdAt(o.getCreatedAt().toString())
                     .build();
 
             responses.add(response);

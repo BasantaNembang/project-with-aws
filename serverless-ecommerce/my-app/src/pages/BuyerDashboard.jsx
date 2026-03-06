@@ -18,16 +18,12 @@ export default function BuyerDashboard() {
   }, [user, navigate]);
 
 
-  console.log("hava")
-  console.log(user?.email)
-
   const fetchOrders = async () => {
     try {
       const token = getToken();
       const { data } = await api.get(`/orders/${user?.email}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      // backend should return array of Order objects
       setOrders(data || []);
     } catch (e) {
       console.error('Failed to fetch', e);

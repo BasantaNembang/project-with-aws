@@ -102,7 +102,6 @@ export default function SellerDashboard() {
       };
       formData.append('product', JSON.stringify(productDTO));
 
-      // Add image (matching @RequestPart("image"))
       if (productData.image) {
         formData.append('image', productData.image);
       }
@@ -374,7 +373,7 @@ export default function SellerDashboard() {
             <h2>Recently Added Products</h2>
             <div className="recent-images">
               {recentProducts.map((p) => (
-                <div key={p._id} className="recent-image-card">
+                <div key={p.productId} className="recent-image-card">
                   <img src={p.image} alt={p.name} />
                   <p>{p.name}</p>
                   <span>₹{p.price}</span>

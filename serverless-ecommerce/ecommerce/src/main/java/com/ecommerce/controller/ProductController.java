@@ -41,11 +41,13 @@ public class ProductController {
     }
 
 
-
     //get all by seller
     @GetMapping("/seller/my-products/{email}")
     public ResponseEntity<List<ProductDTO>> getMyProduct(@PathVariable("email") String email) {
-        return ResponseEntity.status(HttpStatus.OK).body(productService.getMyProduct(email));
+        List<ProductDTO> productDTOS = productService.getMyProduct(email);
+        System.out.println("data");
+        System.out.println(productDTOS);
+        return ResponseEntity.status(HttpStatus.OK).body(productDTOS);
     }
 
 

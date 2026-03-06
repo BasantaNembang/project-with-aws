@@ -1,13 +1,12 @@
 package com.ecommerce.security;
 
 
-import com.ecommerce.service.Auth.JwtService;
+import com.ecommerce.service.JwtService;
 import com.ecommerce.service.UserDetailsServiceImpl;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -22,12 +21,14 @@ import java.io.IOException;
 @Component
 public class JwtFilter extends OncePerRequestFilter {
 
+    private final JwtService jwtService;
 
-    @Autowired
-    private  JwtService jwtService;
+    private final ApplicationContext context;
 
-    @Autowired
-    ApplicationContext context;
+    public JwtFilter(JwtService jwtService, ApplicationContext context) {
+        this.jwtService = jwtService;
+        this.context = context;
+    }
 
 
     @Override

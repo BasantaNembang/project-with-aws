@@ -22,6 +22,7 @@ public class InventoryServiceImpl implements InventoryService{
     public String saveProductInSTOCK(String productId, int stock) {
         Inventory inventory = new Inventory();
         inventory.setId(UUID.randomUUID().toString().substring(0, 6));
+
         inventory.setProductId(productId);
         inventory.setQuantity(stock);
         //save
@@ -31,9 +32,9 @@ public class InventoryServiceImpl implements InventoryService{
 
     @Override
     public int getItemQuantity(String stock) {
-        return inventoryRepo.findByProductId(stock)
+       return inventoryRepo.findByProductId(stock)
                 .map(Inventory::getQuantity)
-                .orElse(0);
+                .orElseThrow(()->new CustomException("No data "));
     }
 
 
@@ -44,7 +45,8 @@ public class InventoryServiceImpl implements InventoryService{
         for (OrderItem item : items) {
 
          Inventory inventory =  inventoryRepo.findByProductId(item.getProductId())
-                                .orElseThrow(()->new CustomException("No product"));
+                 .orElseThrow(()->new CustomException("No data"));
+
 
          if(inventory.getQuantity() < item.getQuantity()){
              throw new CustomException("Insufficient stock for product");

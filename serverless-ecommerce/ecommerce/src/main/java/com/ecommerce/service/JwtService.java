@@ -1,12 +1,11 @@
-package com.ecommerce.service.Auth;
+package com.ecommerce.service;
 
 import com.ecommerce.modal.User;
-import com.ecommerce.repo.EcommerceRepo;
+import com.ecommerce.repo.UserRepo;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -27,12 +26,15 @@ public class JwtService {
     @Value("${jwt.secret}")
     private String theKEY;
 
-    @Autowired
-    EcommerceRepo ecommerceRepo;
+    private final UserRepo userRepo;
+
+    public JwtService(UserRepo userRepo) {
+        this.userRepo = userRepo;
+    }
 
 
     public String getJwtToken(String email) {
-        User user = ecommerceRepo.findByEmail(email).get();
+        User user = userRepo.findByEmail(email).get();
 
         if(user==null){
             throw new UsernameNotFoundException("unable to create JWT token cause");
@@ -45,7 +47,7 @@ public class JwtService {
                 .add(cls)
                 .setSubject(email)
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() +  3600000)) // 60 mins
+                .expiration(new Date(System.currentTimeMillis() + 12 * 60 * 60 * 1000)) // 12 hrs
                 .and()
                 .signWith(getSecretKey(),  SignatureAlgorithm.HS256).compact();    }
 

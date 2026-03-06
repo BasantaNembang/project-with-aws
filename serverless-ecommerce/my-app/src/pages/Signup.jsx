@@ -16,8 +16,6 @@ export default function Signup() {
     setLoading(false);
     if (res.success) {
       toast.success('Signup successful!');
-      console.log(res.user)
-      console.log("rolessss")
       navigate(res.user.role === 'seller' ? '/seller-dashboard' : '/buyer-dashboard');
     } else {
       toast.error(res.error);

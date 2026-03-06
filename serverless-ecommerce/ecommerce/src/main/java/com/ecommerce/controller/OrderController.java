@@ -28,11 +28,11 @@ public class OrderController {
     }
 
 
-    //for buyers
-    @GetMapping("/{email}")
-    public ResponseEntity<List<OrderResponse>> makeOrder(@PathVariable("email") String email) {
+    //for buyers  :: user-> buyer email
+    @GetMapping("/{user}")
+    public ResponseEntity<List<OrderResponse>> makeOrder(@PathVariable("user") String user) {
         return ResponseEntity.status(HttpStatus.OK)
-                .body(orderService.getOrders(email));
+                .body(orderService.getOrders(user));
     }
 
 

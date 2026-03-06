@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.Instant;
 import java.util.List;
 
 
@@ -19,7 +18,7 @@ public class OrderResponse {
     private List<OrderItem> items;
     private String orderStatus;
     private double totalAmount;
-    private Instant createdAt;
+    private String createdAt;
 
 
 }

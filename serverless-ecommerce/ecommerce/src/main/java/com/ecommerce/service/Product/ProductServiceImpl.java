@@ -2,12 +2,8 @@ package com.ecommerce.service.Product;
 
 import com.amazonaws.HttpMethod;
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
-import com.amazonaws.services.s3.model.ObjectMetadata;
-import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.amazonaws.services.s3.model.PutObjectResult;
+import com.amazonaws.services.s3.model.*;
 import com.ecommerce.dto.ProductDTO;
-import com.ecommerce.error.CustomException;
 import com.ecommerce.modal.Product;
 import com.ecommerce.repo.ProductRepo;
 import com.ecommerce.service.Inventory.InventoryServiceImpl;
@@ -20,7 +16,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.net.URI;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -63,14 +58,14 @@ public class ProductServiceImpl implements ProductService {
         productModal.setId(id);
 
         String imageURL = uploadInAWS(image);
-        String url = preSignedURL(imageURL);
 
-        productModal.setImageUrl(url);
+        //can be used for certain period of time
+       // String url = preSignedURL(imageURL);
+
+        productModal.setImageUrl(imageURL);
 
         //to store locally
         //String imageURL = saveImage(image);
-
-
         //for inventory
         String inventoryID = inventoryService
                 .saveProductInSTOCK(id, prod.stock());
@@ -98,15 +93,15 @@ public class ProductServiceImpl implements ProductService {
 
         String imageName = UUID.randomUUID() + fileExtension;
 
-
-
         ObjectMetadata metadata = new ObjectMetadata();
         metadata.setContentLength(image.getSize());
         metadata.setContentType(image.getContentType());
 
         try {
             PutObjectResult putObjectRequest = amazonS3.putObject(bucket, imageName, image.getInputStream(), metadata);
-            return imageName;
+
+           // return imageName;
+            return amazonS3.getUrl(bucket, imageName).toString();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -145,9 +140,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductDTO> getAllProduct() {
-        return productRepo.findAll()
-                .stream()
-                .map(m->new ProductDTO(m.getId(),  m.getName(), m.getDescription(), m.getPrice(),
+              return productRepo.findAll()
+                      .stream()
+                      .map(m->new ProductDTO(m.getId(),  m.getName(), m.getDescription(), m.getPrice(),
                         inventoryService.getItemQuantity(m.getId()), m.getCategory(), m.getImageUrl(), m.getEmail()))
                 .collect(Collectors.toList());
     }
@@ -166,10 +161,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductDTO getProduct(String id) {
-        return productRepo.findById(id)
-                .map(p->new ProductDTO(p.getId(), p.getName(),p.getDescription(),p.getPrice(),
-                      inventoryService.getItemQuantity(p.getStock()),p.getCategory(),p.getImageUrl(),p.getEmail()))
-                .orElseThrow(()->new CustomException("No data"));
+        Product p = productRepo.findById(id);
+        return new ProductDTO(p.getId(), p.getName(),p.getDescription(),p.getPrice(),
+                      inventoryService.getItemQuantity(p.getStock()),p.getCategory(),p.getImageUrl(),p.getEmail());
 
     }
 
@@ -177,11 +171,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public String getSellerByPID(String productId) {
-        System.out.println("hey there");
-        System.out.println(productId);
-       return  productRepo.findById(productId)
-                .map(Product::getEmail)
-               .orElseThrow(()->new CustomException("No data"));
+       return productRepo.findById(productId)
+               .getEmail();
     }
 
 

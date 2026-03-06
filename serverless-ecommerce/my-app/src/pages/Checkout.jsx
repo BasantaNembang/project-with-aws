@@ -29,11 +29,6 @@ export default function Checkout() {
 
   const handleSubmit = async (e) => {
 
-
-     console.log("oi")
-     console.log(user?.email)
-
-
     e.preventDefault();
 
     if (items.length === 0) {
@@ -69,7 +64,6 @@ export default function Checkout() {
       // Clear cart on successful order
       clearCart();
       toast.success('Order placed successfully!');
-      console.log(data.data)
 
       navigate('/order-confirmation', { state: { order: data.data } });
     } catch (err) {

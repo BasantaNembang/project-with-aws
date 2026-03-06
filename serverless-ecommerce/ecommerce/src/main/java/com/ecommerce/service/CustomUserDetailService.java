@@ -1,4 +1,4 @@
-package com.ecommerce.service.Auth;
+package com.ecommerce.service;
 
 import com.ecommerce.modal.User;
 import org.springframework.security.core.GrantedAuthority;
