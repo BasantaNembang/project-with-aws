@@ -1,7 +1,6 @@
-package com.ecommerce.config;
+package org.example.config;
 
 
-import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.AWSCredentialsProvider;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
@@ -9,12 +8,13 @@ import com.amazonaws.client.builder.AwsClientBuilder;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
-import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.AmazonS3ClientBuilder;
+import com.cloudinary.Cloudinary;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.HashMap;
+import java.util.Map;
 
 @Configuration
 public class AwsConfig {
@@ -25,30 +25,32 @@ public class AwsConfig {
     @Value("${cloud.aws.credentials.secret-key}")
     private String awsSecretKey;
 
-    @Value("${cloud.aws.region.static}")
-    private String region;
 
     @Value("${cloud.aws.serviceEndPoint}")
     private String serviceEndPoint;
 
-    @Value("${cloud.aws.singingRegion}")
+    @Value("${cloud.aws.signingRegion}")
     private String singingRegion;
 
 
 
-    //for s3
+    @Value("${cloudinary.cloud-name}")
+    private String cloudName;
+
+    @Value("${cloudinary.api-key}")
+    private String apiKey;
+
+    @Value("${cloudinary.api-secret}")
+    private String apiSecret;
+
+    //for image->
     @Bean
-    public AmazonS3 amazonS3(){
-
-        AWSCredentials awsCredential = new BasicAWSCredentials(awsAccessKey, awsSecretKey);
-
-        AmazonS3 amazonS3 = AmazonS3ClientBuilder.standard()
-                .withCredentials(new AWSStaticCredentialsProvider(awsCredential))
-                .withRegion(region)
-                .build();
-
-        return amazonS3;
-
+    public Cloudinary cloudinary(){
+        Map cofig = new HashMap();
+        cofig.put("cloud_name", cloudName);
+        cofig.put("api_key", apiKey);
+        cofig.put("api_secret", apiSecret);
+        return new Cloudinary(cofig);
     }
 
 

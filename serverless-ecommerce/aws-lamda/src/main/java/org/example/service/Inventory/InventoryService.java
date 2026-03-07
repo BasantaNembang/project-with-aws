@@ -1,0 +1,16 @@
+package org.example.service.Inventory;
+
+
+
+import org.example.dto.order.OrderItem;
+
+import java.util.List;
+
+public interface InventoryService {
+
+    String saveProductInSTOCK(String id, int stock);
+
+    int getItemQuantity(String stock);
+
+    void checkAndReduceSTOCK(List<OrderItem> items);
+}

@@ -1,14 +1,12 @@
-package com.ecommerce.service.Product;
+package org.example.service.Product;
 
-import com.amazonaws.HttpMethod;
-import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.*;
-import com.ecommerce.dto.ProductDTO;
-import com.ecommerce.modal.Product;
-import com.ecommerce.repo.ProductRepo;
-import com.ecommerce.service.Inventory.InventoryServiceImpl;
+import com.cloudinary.Cloudinary;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.example.dto.ProductDTO;
+import org.example.modal.Product;
+import org.example.repo.ProductRepo;
+import org.example.service.Inventory.InventoryServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.UrlResource;
@@ -16,7 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -35,12 +32,11 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private InventoryServiceImpl inventoryService;
 
-    @Autowired
-    private AmazonS3 amazonS3;
-
     @Value("${app.s3.bucket}")
     private String bucket;
 
+    @Autowired
+    private Cloudinary cloudinary;
 
     final String basePath = "http://localhost:8080/products/Images/";
 
@@ -59,10 +55,7 @@ public class ProductServiceImpl implements ProductService {
 
         productModal.setId(id);
 
-        String imageURL = uploadInAWS(image);
-
-        //can be used for certain period of time
-       // String url = preSignedURL(imageURL);
+        String imageURL = uploadInCLOUDINARY(image);
 
         productModal.setImageUrl(imageURL);
 
@@ -84,41 +77,16 @@ public class ProductServiceImpl implements ProductService {
     }
 
 
-    private String uploadInAWS(MultipartFile image)  {
-
-        String originalName = image.getOriginalFilename();
-        String fileExtension = "";
-
-        if (originalName != null && originalName.contains(".")) {
-            fileExtension = originalName.substring(originalName.lastIndexOf("."));
-        }
-
-        String imageName = UUID.randomUUID() + fileExtension;
-
-        ObjectMetadata metadata = new ObjectMetadata();
-        metadata.setContentLength(image.getSize());
-        metadata.setContentType(image.getContentType());
-
+    private String uploadInCLOUDINARY(MultipartFile image) {
         try {
-            PutObjectResult putObjectRequest = amazonS3.putObject(bucket, imageName, image.getInputStream(), metadata);
-
-           // return imageName;
-            return amazonS3.getUrl(bucket, imageName).toString();
+            Map map = this.cloudinary.uploader().upload(image.getBytes(), Map.of());
+            return map.get("secure_url").toString();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
-      }
-
-
-    private String preSignedURL(String imageURL) {
-        GeneratePresignedUrlRequest request = new
-                GeneratePresignedUrlRequest(bucket, imageURL)
-                .withMethod(HttpMethod.GET);
-
-        URL url = amazonS3.generatePresignedUrl(request);
-        return url.toString();
     }
+
 
 
 

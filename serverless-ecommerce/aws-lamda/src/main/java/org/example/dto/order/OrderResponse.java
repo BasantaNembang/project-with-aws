@@ -1,0 +1,24 @@
+package org.example.dto.order;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.List;
+
+
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
+@Builder
+public class OrderResponse {
+
+    private String id;
+    private List<OrderItem> items;
+    private String orderStatus;
+    private double totalAmount;
+    private String createdAt;
+
+
+}
