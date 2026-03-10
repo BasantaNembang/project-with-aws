@@ -46,5 +46,11 @@ public class InventoryRepo {
     }
 
 
+    public void deleteInventory(Inventory inventory){
+        dbMapper.delete(inventory);
+    }
+
+
+
 
 }

@@ -19,4 +19,8 @@ public interface ProductService {
     ProductDTO getProduct(String id);
 
     String getSellerByPID(String productId);
+
+    void deleteProduct(String pid);
+
+    String updateTheProduct(String product, MultipartFile image);
 }

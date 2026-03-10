@@ -61,6 +61,15 @@ public class InventoryServiceImpl implements InventoryService{
     }
 
 
+//    @Override
+//    public void deleteByID(String stock) {
+//        Inventory inventory = inventoryRepo.findByProductId(stock)
+//                .orElseThrow(()->new CustomException("No data "));
+//
+//        inventoryRepo.deleteInventory(inventory);
+//
+//    }
+
 
 
 }

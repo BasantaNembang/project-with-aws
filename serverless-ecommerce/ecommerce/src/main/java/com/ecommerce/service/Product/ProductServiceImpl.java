@@ -3,7 +3,9 @@ package com.ecommerce.service.Product;
 import com.amazonaws.HttpMethod;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.*;
+
 import com.ecommerce.dto.ProductDTO;
+import com.ecommerce.error.CustomException;
 import com.ecommerce.modal.Product;
 import com.ecommerce.repo.ProductRepo;
 import com.ecommerce.service.Inventory.InventoryServiceImpl;
@@ -22,7 +24,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -59,12 +60,9 @@ public class ProductServiceImpl implements ProductService {
 
         productModal.setId(id);
 
-        String imageURL = uploadInAWS(image);
+        String imageURl = uploadInAWS(image);
 
-        //can be used for certain period of time
-       // String url = preSignedURL(imageURL);
-
-        productModal.setImageUrl(imageURL);
+        productModal.setImageUrl(imageURl);
 
         //to store locally
         //String imageURL = saveImage(image);
@@ -82,33 +80,6 @@ public class ProductServiceImpl implements ProductService {
         productRepo.save(productModal);
         return "product added successfully";
     }
-
-
-    private String uploadInAWS(MultipartFile image)  {
-
-        String originalName = image.getOriginalFilename();
-        String fileExtension = "";
-
-        if (originalName != null && originalName.contains(".")) {
-            fileExtension = originalName.substring(originalName.lastIndexOf("."));
-        }
-
-        String imageName = UUID.randomUUID() + fileExtension;
-
-        ObjectMetadata metadata = new ObjectMetadata();
-        metadata.setContentLength(image.getSize());
-        metadata.setContentType(image.getContentType());
-
-        try {
-            PutObjectResult putObjectRequest = amazonS3.putObject(bucket, imageName, image.getInputStream(), metadata);
-
-           // return imageName;
-            return amazonS3.getUrl(bucket, imageName).toString();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-      }
 
 
     private String preSignedURL(String imageURL) {
@@ -179,6 +150,55 @@ public class ProductServiceImpl implements ProductService {
 
 
 
+    @Override
+    public void deleteProduct(String pid) {
+       Product product =  productRepo.findById(pid);
+
+       String imageUrl = product.getImageUrl();
+
+       String fileName = imageUrl.substring(imageUrl.lastIndexOf("/") + 1);
+       if(amazonS3.doesObjectExist(bucket, fileName)){
+           //delete the image
+           amazonS3.deleteObject(bucket, fileName);
+           //delete the inventory as well
+           inventoryService.deleteByID(product.getId());
+           //delete data
+           productRepo.deleteByID(product);
+       }else{
+           throw new CustomException("can`t delete the object");
+       }
+
+    }
+
+
+    @Override
+    public String updateTheProduct(String product, MultipartFile image) {
+
+        ObjectMapper mapper = new ObjectMapper();
+        ProductDTO prod = null;
+        try {
+            prod  =  mapper.readValue(product, ProductDTO.class);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+        Product pro =  productRepo.findById(prod.productId());
+        if(image!=null){  //image is uploaded to change
+            String imageUrl = pro.getImageUrl();
+            String fileName = imageUrl.substring(imageUrl.lastIndexOf("/") + 1);
+            if(amazonS3.doesObjectExist(bucket, fileName)){
+                amazonS3.deleteObject(bucket, fileName);
+            }
+            String newImageURL = uploadInAWS(image);
+            pro.setImageUrl(newImageURL);
+        }
+        pro.setName(prod.name());
+        pro.setDescription(prod.description());
+        pro.setCategory(prod.category());
+        pro.setPrice(prod.price());
+        productRepo.updateTheProduct(pro.getId(), pro);
+       return "success";
+    }
+
 
     private String saveImage(MultipartFile image) {
         try{
@@ -195,6 +215,33 @@ public class ProductServiceImpl implements ProductService {
         catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+
+    private String uploadInAWS(MultipartFile image)  {
+
+        String originalName = image.getOriginalFilename();
+        String fileExtension = "";
+
+        if (originalName != null && originalName.contains(".")) {
+            fileExtension = originalName.substring(originalName.lastIndexOf("."));
+        }
+
+        String imageName = UUID.randomUUID() + fileExtension;
+
+        ObjectMetadata metadata = new ObjectMetadata();
+        metadata.setContentLength(image.getSize());
+        metadata.setContentType(image.getContentType());
+
+        try {
+            PutObjectResult putObjectRequest = amazonS3.putObject(bucket, imageName, image.getInputStream(), metadata);
+
+            // return imageName;
+            return amazonS3.getUrl(bucket, imageName).toString();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
 

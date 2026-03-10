@@ -49,4 +49,26 @@ public class ProductRepo  {
         return dbMapper.load(Product.class, id);
     }
 
+
+    public void deleteByID(Product product){
+        dbMapper.delete(product);
+    }
+
+    public Product updateTheProduct(String pid, Product prod) {
+        Product existing = dbMapper.load(Product.class, pid);
+
+        if (existing == null) {
+            throw new RuntimeException("Product not found");
+        }
+
+
+        dbMapper.save(prod);
+        return prod;
+    }
+
+
+
+
+
+
 }

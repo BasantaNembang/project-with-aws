@@ -45,8 +45,6 @@ public class ProductController {
     @GetMapping("/seller/my-products/{email}")
     public ResponseEntity<List<ProductDTO>> getMyProduct(@PathVariable("email") String email) {
         List<ProductDTO> productDTOS = productService.getMyProduct(email);
-        System.out.println("data");
-        System.out.println(productDTOS);
         return ResponseEntity.status(HttpStatus.OK).body(productDTOS);
     }
 
@@ -60,7 +58,18 @@ public class ProductController {
     }
 
 
+    @DeleteMapping("/delete/{pid}")
+    public ResponseEntity<Void> deleteProduct(@PathVariable("pid") String pid){
+        productService.deleteProduct(pid);
+        return ResponseEntity.noContent().build();
+    }
 
+
+    @PutMapping("/update")
+    public ResponseEntity<?> updateProduct(@RequestPart("product") String product,
+                                          @RequestPart(value = "image", required = false) MultipartFile image) {
+        return ResponseEntity.status(HttpStatus.OK).body(productService.updateTheProduct(product, image));
+    }
 
 
 }

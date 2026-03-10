@@ -39,6 +39,9 @@ public class Product {
     @DynamoDBAttribute
     private String email; //save seller email
 
+    @DynamoDBAttribute
+    private String imageId;
+
 
 }
 

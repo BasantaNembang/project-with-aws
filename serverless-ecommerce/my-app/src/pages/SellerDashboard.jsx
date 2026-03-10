@@ -93,6 +93,7 @@ export default function SellerDashboard() {
 
       // Add product as JSON string (matching @RequestPart("product"))
       const productDTO = {
+        productId: edit?.productId,
         name: productData.name,
         description: productData.description,
         price: parseInt(productData.price),
@@ -107,21 +108,21 @@ export default function SellerDashboard() {
       }
 
       if (edit) {
-        // Update product
-        await api.put(`/products/${edit._id}`, formData, { 
-          headers: { 
+        //Update product
+        await api.put(`/products/update`, formData, {
+          headers: {
             ...headers,
-            'Content-Type': 'multipart/form-data' 
-          } 
+            'Content-Type': 'multipart/form-data'
+          }
         });
         toast.success('Product updated');
       } else {
         // Create new product - using /products/save endpoint
-        await api.post('/products/save', formData, { 
-          headers: { 
+        await api.post('/products/save', formData, {
+          headers: {
             ...headers,
-            'Content-Type': 'multipart/form-data' 
-          } 
+            'Content-Type': 'multipart/form-data'
+          }
         });
         toast.success('Product added');
       }
@@ -161,15 +162,16 @@ export default function SellerDashboard() {
   };
 
   // Delete product
-  const handleDelete = async (id) => {
-    if (!window.confirm('Delete this product?')) return;
+  const handleDelete = async (productId) => {
     try {
       const token = getToken();
-      await api.delete(`/products/${id}`, { 
-        headers: { Authorization: `Bearer ${token}` } 
+      await api.delete(`/products/delete/${productId}`, {
+        headers: { Authorization: `Bearer ${token}` }
       });
       toast.success('Product deleted');
-      fetchData();
+      //change in UI   
+      const updatedDATA = products.filter((p) => p.productId != productId)
+      setProducts(updatedDATA);
     } catch (e) {
       toast.error('Failed to delete');
     }
@@ -209,7 +211,7 @@ export default function SellerDashboard() {
                   product={p}
                   isSeller
                   onEdit={handleEdit}
-                  onDelete={handleDelete}
+                  onDelete={() => handleDelete(p.productId)}
                 />
               ))}
             </div>
@@ -323,9 +325,9 @@ export default function SellerDashboard() {
             <div className="form-group">
               <label>Product Image {!edit && '*'}</label>
               <div className="image-upload">
-                <input 
-                  type="file" 
-                  accept="image/*" 
+                <input
+                  type="file"
+                  accept="image/*"
                   onChange={handleImageChange}
                   required={!edit}
                 />

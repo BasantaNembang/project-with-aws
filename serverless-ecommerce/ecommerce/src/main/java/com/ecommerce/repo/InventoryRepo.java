@@ -45,6 +45,10 @@ public class InventoryRepo {
         return inventories.stream().findFirst();
     }
 
+    public void deleteInventory(Inventory inventory){
+        dbMapper.delete(inventory);
+    }
+
 
 
 }

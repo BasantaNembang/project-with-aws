@@ -4,9 +4,7 @@ package org.example.controller;
 import org.example.dto.ProductDTO;
 import org.example.service.Product.ProductServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -46,18 +44,7 @@ public class ProductController {
     @GetMapping("/seller/my-products/{email}")
     public ResponseEntity<List<ProductDTO>> getMyProduct(@PathVariable("email") String email) {
         List<ProductDTO> productDTOS = productService.getMyProduct(email);
-        System.out.println("data");
-        System.out.println(productDTOS);
         return ResponseEntity.status(HttpStatus.OK).body(productDTOS);
-    }
-
-
-    @GetMapping("/Images/{imageName}")
-    public ResponseEntity<UrlResource> getImages(@PathVariable("imageName") String imageName){
-        UrlResource image = productService.getImage(imageName);
-        return ResponseEntity.ok()
-                .contentType(MediaType.parseMediaType("image/jpeg"))
-                .body(image);
     }
 
 

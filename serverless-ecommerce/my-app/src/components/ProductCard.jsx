@@ -55,7 +55,7 @@ export default function ProductCard({ product, onEdit, onDelete, isSeller = fals
             <button className="btn btn-primary" style={{ flex: 1, fontSize: '12px' }} onClick={() => onEdit(product)}>
               Edit
             </button>
-            <button className="btn btn-danger" style={{ flex: 1, fontSize: '12px' }} onClick={() => onDelete(product._id)}>
+            <button className="btn btn-danger" style={{ flex: 1, fontSize: '12px' }} onClick={() => onDelete(product.productId)}>
               Delete
             </button>
           </>

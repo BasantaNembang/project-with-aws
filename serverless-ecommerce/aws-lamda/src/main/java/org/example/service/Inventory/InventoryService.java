@@ -13,4 +13,7 @@ public interface InventoryService {
     int getItemQuantity(String stock);
 
     void checkAndReduceSTOCK(List<OrderItem> items);
+
+
+
 }

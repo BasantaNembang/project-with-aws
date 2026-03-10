@@ -25,14 +25,11 @@ public class AwsConfig {
     @Value("${cloud.aws.credentials.secret-key}")
     private String awsSecretKey;
 
-
     @Value("${cloud.aws.serviceEndPoint}")
     private String serviceEndPoint;
 
     @Value("${cloud.aws.signingRegion}")
     private String singingRegion;
-
-
 
     @Value("${cloudinary.cloud-name}")
     private String cloudName;
