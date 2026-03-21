@@ -23,4 +23,5 @@ public interface ProductService {
     void deleteProduct(String pid);
 
     String updateTheProduct(String product, MultipartFile image);
+
 }

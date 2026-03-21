@@ -78,7 +78,7 @@ Upload all contents of the `dist/` folder to your hosting platform (e.g., S3, Ne
 
 ```bash
 cd aws-lambda
-mvn clean package
+mvn clean package -DskipTests
 ```
 
 ### 2. Deploy to AWS
@@ -121,7 +121,7 @@ Add the following binary media types in your API Gateway settings:
 
 ```bash
 cd ecommerce
-mvn clean package
+mvn clean package -DskipTests
 ```
 
 ### 2. Deploy
