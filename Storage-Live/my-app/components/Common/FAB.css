@@ -1,0 +1,35 @@
+.fab {
+  position: fixed;
+  bottom: 90px;
+  right: 20px;
+  width: 56px;
+  height: 56px;
+  background: linear-gradient(135deg, var(--primary-blue) 0%, #0052cc 100%);
+  color: var(--light-white);
+  border: none;
+  border-radius: 50%;
+  font-size: 32px;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(0, 102, 255, 0.4);
+  transition: var(--transition);
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 300;
+}
+
+.fab:active {
+  transform: scale(0.9);
+  box-shadow: 0 2px 8px rgba(0, 102, 255, 0.3);
+}
+
+@media (max-width: 480px) {
+  .fab {
+    bottom: 80px;
+    width: 52px;
+    height: 52px;
+    font-size: 28px;
+  }
+}
+

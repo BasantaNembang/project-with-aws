@@ -1,0 +1,119 @@
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 200;
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.modal-content {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--dark-black);
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  z-index: 210;
+  max-height: 90vh;
+  overflow-y: auto;
+  animation: slideUp 0.3s ease-out;
+  background-color: white;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  position: sticky;
+  top: 0;
+  background: var(--dark-black);
+}
+
+.modal-header h2 {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--light-white);
+  margin: 0;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  color: var(--light-white);
+  font-size: 24px;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.back-btn {
+  background: none;
+  border: none;
+  color: var(--primary-blue);
+  font-weight: 600;
+  cursor: pointer;
+  padding: 12px 20px;
+  margin-left: 20px;
+}
+
+.content-type-selector {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  padding: 20px;
+}
+
+.type-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 24px;
+  background: rgba(0, 102, 255, 0.1);
+  border: 2px solid var(--primary-blue);
+  border-radius: var(--border-radius);
+  color: var(--primary-blue);
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.type-btn:active {
+  background: rgba(0, 102, 255, 0.2);
+  transform: scale(0.95);
+}
+
+.type-icon {
+  font-size: 40px;
+}
+
+@media (max-width: 480px) {
+  .content-type-selector {
+    grid-template-columns: 1fr;
+  }
+}
+

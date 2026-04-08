@@ -1,0 +1,42 @@
+spring:
+  application:
+    name: Storage-Backend
+  servlet:
+    multipart:
+      max-file-size: 1000MB
+      max-request-size: 1000MB
+  data:
+    mongodb:
+      uri: ${MOMGODB_CLOUD_URI}
+      database: ${DB_NAME}
+
+jwt:
+  secret: BV5vljmTbb5mXqzLfED6tXD1P40061PSIELOiDJ1CEC
+
+
+video:
+  upload:
+    dir: ${DIR:../videos}
+  base-path: ${BASE_PATH:D:/Storage-Live/videos}
+
+
+cloud:
+  aws:
+    credentials:
+      access-key: ${CLOUD_ACCESS_KEY}
+      secret-key: ${CLOUD_SECRECT_KEY}
+    region:
+      static: ${CLOUD_REGION}
+    stack:
+      auto: false
+
+app:
+  s3:
+    bucket: ${BUCKET_NAME}
+
+cloudinary:
+  cloud-name: ${CLOUDNARY_NAME}
+  api-key: ${CLOUDNARY_API_KEY}
+  api-secret: ${CLOUDNARY_SECRET_KEY}
+
+

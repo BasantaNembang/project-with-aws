@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  nginx:
+    image: nginx:alpine
+    container_name: nginx-container
+    ports:
+      - "9292:8080"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      
+  backend:
+    image: basantanembang10/storage:latest
+    container_name: backend-container
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./videos:/data
+    environment:
+      DIR: /data
+      BASE_PATH: /data
+
