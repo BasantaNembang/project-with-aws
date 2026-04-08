@@ -19,7 +19,6 @@ video:
     dir: ${DIR:../videos}
   base-path: ${BASE_PATH:D:/Storage-Live/videos}
 
-
 cloud:
   aws:
     credentials:
@@ -38,5 +37,6 @@ cloudinary:
   cloud-name: ${CLOUDNARY_NAME}
   api-key: ${CLOUDNARY_API_KEY}
   api-secret: ${CLOUDNARY_SECRET_KEY}
+
 
 

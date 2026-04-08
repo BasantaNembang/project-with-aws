@@ -4,7 +4,6 @@ import './LoginPage.css';
 import { useForm } from "react-hook-form";
 import { AuthDTO } from '../types';
 import { loginUser } from '../apis/authAPI'
-//import { useAuthContexHook } from '../context/AuthContext';
 
 const LoginPage = () => {
 
@@ -14,7 +13,6 @@ const LoginPage = () => {
 
   const { errors } = formState;
 
-  //const { SetjwtToken } = useAuthContexHook();
 
   const [loginForm, SetLoginForm] = useState<AuthDTO>({
     email: '',
@@ -31,12 +29,13 @@ const LoginPage = () => {
 
   const handleLogin = async () => {
     const response = await loginUser(loginForm);
-    //SetjwtToken(response?.token)
-    //navigate("/home")
-
+    if (response === "success") {
+      navigate("/")
+    }
+    else if (response === 403) {
+      navigate("/login")
+    }
   };
-
-
 
 
   return (

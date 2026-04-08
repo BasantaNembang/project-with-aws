@@ -8,9 +8,9 @@ import './App.css';
 function AppContent() {
   return (
     <Routes>
-      <Route path="/" element={<LoginPage />} />
+      <Route path="/auth" element={<LoginPage />} />
       <Route
-        path="/home"
+        path="/"
         element={<HomePage />}
       />
       <Route

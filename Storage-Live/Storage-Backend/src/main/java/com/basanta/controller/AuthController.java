@@ -4,10 +4,8 @@ package com.basanta.controller;
 import com.basanta.dto.AuthDTO;
 import com.basanta.helper.JwtService;
 import com.basanta.service.Impl.AuthServiceImpl;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
-//import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -38,7 +36,6 @@ public class AuthController {
                 .httpOnly(true)
                 .path("/")
                 .maxAge(10 * 60 * 60)
-                .sameSite("None")
                 .build();
 
         response.addHeader("Set-Cookie", cookie.toString());
@@ -47,6 +44,24 @@ public class AuthController {
                 .body("success");
     }
 
+
+    @GetMapping("/check")
+    public ResponseEntity<String> isLoggedIn(){
+        return ResponseEntity.status(HttpStatus.OK).body("isLoggedIN");
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<?> logOut(HttpServletResponse response){
+        ResponseCookie cookie = ResponseCookie.from("jwtToken", "")
+                .httpOnly(true)
+                .path("/")
+                .maxAge(0)
+                .build();
+        response.addHeader("Set-Cookie", cookie.toString());
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body("logout successfully");
+    }
 
 
 }

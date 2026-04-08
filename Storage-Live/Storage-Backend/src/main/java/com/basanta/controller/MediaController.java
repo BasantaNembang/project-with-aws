@@ -15,7 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/video")
-@CrossOrigin("*")
+@CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
 public class MediaController {
 
    private final VideoServiceImpl service;

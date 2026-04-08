@@ -31,3 +31,9 @@ export interface AuthDTO {
   password: string;
 }
 
+// export interface videoResponse {
+//     id: string | null,
+//     title: string | null,
+//     url: string | null
+// }
+

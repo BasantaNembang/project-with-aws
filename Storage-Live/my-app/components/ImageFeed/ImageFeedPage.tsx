@@ -107,7 +107,7 @@ const ImageFeedPage = () => {
             )}
 
             {data?.pages?.[data.pages.length - 1]?.last && (
-              <p style={{ color: "#a8a6a6;", textAlign: "center", marginTop: 12 }}>
+              <p style={{ color: "#a8a6a6", textAlign: "center", marginTop: 12 }}>
                 No more images
               </p>
             )}

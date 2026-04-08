@@ -17,8 +17,6 @@ public class AuthServiceImpl {
     }
 
     public boolean authenticateUser(String email, String password) {
-        System.out.println(email + "email");
-        System.out.println("userRepo.findByEmail(email)   " + userRepo.findByEmail(email));
         return userRepo.findByEmail(email)
                 .map(u -> passwordEncoder.matches(password, u.getPassword()))
                 .orElse(false);

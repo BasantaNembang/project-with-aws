@@ -1,12 +1,31 @@
 import { useNavigate } from 'react-router-dom';
 import Navigation from './Navigation';
 import './HomePage.css';
+import { useEffect } from 'react';
+import { isLoggedIn, logOut } from '../../apis/authAPI';
 
-const HomePage  = () => {
+const HomePage = () => {
   const navigate = useNavigate();
 
-  const handleLogout = () => {
-    navigate('/');
+  const checkAUTH = async () => {
+    const response = await isLoggedIn();
+    if (response === "isLoggedIN") {
+      navigate("/")
+    }
+    else if (response === 403) {
+      navigate("/auth")
+    }
+  }
+
+  useEffect(() => {
+    checkAUTH()
+  }, []);
+
+  const handleLogout = async () => {
+    const response = await logOut();
+    if (response === 200) {
+      navigate("/auth")
+    }
   };
 
   const handleNavigate = (section: 'images' | 'videos') => {
