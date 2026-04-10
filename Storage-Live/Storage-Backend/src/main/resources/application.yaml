@@ -7,7 +7,7 @@ spring:
       max-request-size: 1000MB
   data:
     mongodb:
-      uri: ${MOMGODB_CLOUD_URI}
+      uri: ${MONGODB_CLOUD_URI}
       database: ${DB_NAME}
 
 jwt:
@@ -16,14 +16,15 @@ jwt:
 
 video:
   upload:
-    dir: ${DIR:../videos}
-  base-path: ${BASE_PATH:D:/Storage-Live/videos}
+    dir: ${DIR:../deployment/videos}
+  base-path: ${BASE_PATH:E:/ecommerce/Storage-Live/deployment/videos}
+
 
 cloud:
   aws:
     credentials:
       access-key: ${CLOUD_ACCESS_KEY}
-      secret-key: ${CLOUD_SECRECT_KEY}
+      secret-key: ${CLOUD_SECRET_KEY}
     region:
       static: ${CLOUD_REGION}
     stack:
@@ -34,9 +35,6 @@ app:
     bucket: ${BUCKET_NAME}
 
 cloudinary:
-  cloud-name: ${CLOUDNARY_NAME}
-  api-key: ${CLOUDNARY_API_KEY}
-  api-secret: ${CLOUDNARY_SECRET_KEY}
-
-
-
+  cloud-name: ${CLOUDINARY_NAME}
+  api-key: ${CLOUDINARY_API_KEY}
+  api-secret: ${CLOUDINARY_SECRET_KEY}

@@ -19,4 +19,14 @@ services:
     environment:
       DIR: /data
       BASE_PATH: /data
+      MONGODB_CLOUD_URI: "clould.mongodb.url"
+      DB_NAME: "database_name"
+      CLOUD_ACCESS_KEY: "cloud_access_key"
+      CLOUD_SECRET_KEY: "cloud_secret_key"
+      CLOUD_REGION: "cloud_region"
+      CLOUDINARY_NAME: "cloudinary_name"
+      CLOUDINARY_API_KEY: "cloudinary_api_key"
+      CLOUDINARY_SECRET_KEY: "cloudinary_secret_key"
+
+
 

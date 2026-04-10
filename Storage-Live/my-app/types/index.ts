@@ -17,23 +17,10 @@ export interface VideoItem {
   timestamp: string;
 }
 
-export interface AuthContextType {
-  user: User | null;
-  isAuthenticated: boolean;
-  login: (firstName: string, lastName: string) => void;
-  logout: () => void;
-}
-
 
 export interface AuthDTO {
   email: string;
   userName: string;
   password: string;
 }
-
-// export interface videoResponse {
-//     id: string | null,
-//     title: string | null,
-//     url: string | null
-// }
 

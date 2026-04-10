@@ -67,9 +67,9 @@ public class Helper {
 
 
         List<String> command = new ArrayList<>();
-//        command.add("docker");
-//        command.add("exec");
-//        command.add("ffmpeg-container");
+        command.add("docker");
+        command.add("exec");
+        command.add("ffmpeg-container");
 
         command.add("ffmpeg");
         command.add("-y");
@@ -141,9 +141,9 @@ public class Helper {
         //for thumbnail image
         List<String> thumbCommand = new ArrayList<>();
 
-//        thumbCommand.add("docker");
-//        thumbCommand.add("exec");
-//        thumbCommand.add("ffmpeg-container");
+        thumbCommand.add("docker");
+        thumbCommand.add("exec");
+        thumbCommand.add("ffmpeg-container");
 
         thumbCommand.add("ffmpeg");
         thumbCommand.add("-y");
@@ -201,6 +201,8 @@ public class Helper {
             storeVideoS3(videoDirS3, filePath);
         }
         video.setDate(LocalDate.now());
+
+        log.info("saving the video {}",  video);
         videoRepo.save(video);
 
     }
@@ -210,7 +212,7 @@ public class Helper {
 
         log.info("videoDirS3 {}",  videoDirS3);
 
-        Files.walk(videoDirS3)
+        Files.walk(videoDirS3)  //uploading to s3
                 .filter(Files::isRegularFile)
                 .forEach(f -> {
 
@@ -228,11 +230,14 @@ public class Helper {
                     }
                 });
 
-
+        log.info("deleting the video");
         //for rawVideo
+        log.info("filepath  {} ",  filePath);
         Files.deleteIfExists(filePath);
 
         //for hsl
+        log.info("videoDirS3  {} ",  videoDirS3);
+
         if(Files.exists(videoDirS3)){
             Files.walk(videoDirS3)
                     .sorted(Comparator.reverseOrder())
