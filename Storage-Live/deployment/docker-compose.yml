@@ -23,6 +23,7 @@ services:
       DB_NAME: "database_name"
       CLOUD_ACCESS_KEY: "cloud_access_key"
       CLOUD_SECRET_KEY: "cloud_secret_key"
+      BUCKET_NAME: "s3_bucket_name"
       CLOUD_REGION: "cloud_region"
       CLOUDINARY_NAME: "cloudinary_name"
       CLOUDINARY_API_KEY: "cloudinary_api_key"
