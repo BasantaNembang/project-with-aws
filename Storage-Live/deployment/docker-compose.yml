@@ -28,6 +28,6 @@ services:
       CLOUDINARY_NAME: "cloudinary_name"
       CLOUDINARY_API_KEY: "cloudinary_api_key"
       CLOUDINARY_SECRET_KEY: "cloudinary_secret_key"
-
+      VERCEL_URL: "vercel_url"
 
 

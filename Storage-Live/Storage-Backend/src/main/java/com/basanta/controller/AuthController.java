@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
-@CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
+@CrossOrigin(origins = "${app.frontend.url}", allowCredentials = "true")
 public class AuthController {
 
     private final AuthServiceImpl authService;
@@ -35,6 +35,8 @@ public class AuthController {
         ResponseCookie cookie = ResponseCookie.from("jwtToken", jwtToken)
                 .httpOnly(true)
                 .path("/")
+                .secure(true)
+                .sameSite("None")
                 .maxAge(10 * 60 * 60)
                 .build();
 

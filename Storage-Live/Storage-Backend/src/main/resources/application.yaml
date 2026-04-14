@@ -33,8 +33,10 @@ cloud:
 app:
   s3:
     bucket: ${BUCKET_NAME}
-
+  frontend:
+    url: ${http://localhost:5173:VERCEL_URL}
 cloudinary:
   cloud-name: ${CLOUDINARY_NAME}
   api-key: ${CLOUDINARY_API_KEY}
   api-secret: ${CLOUDINARY_SECRET_KEY}
+

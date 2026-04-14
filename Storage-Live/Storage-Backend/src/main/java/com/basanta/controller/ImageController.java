@@ -17,7 +17,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/image")
-@CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
+@CrossOrigin(origins = "${app.frontend.url}", allowCredentials = "true")
 public class ImageController {
 
     private final ImageServiceImpl service;
