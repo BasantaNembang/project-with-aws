@@ -7,6 +7,13 @@ CloudVault is a cloud storage platform similar to Google Drive. It stores **imag
 
 # Deployment 
 
+![image_alt](https://github.com/BasantaNembang/project-with-aws/blob/5622273c410c67183bd41d949af611f7dacd83e2/Storage-Live/homeS.png)
+
+![image_alt](https://github.com/BasantaNembang/project-with-aws/blob/5622273c410c67183bd41d949af611f7dacd83e2/Storage-Live/imageS.png)
+
+![image_alt](https://github.com/BasantaNembang/project-with-aws/blob/5622273c410c67183bd41d949af611f7dacd83e2/Storage-Live/videoS.png)
+
+
 ---
 
 ## 1. Launch EC2 Instance
