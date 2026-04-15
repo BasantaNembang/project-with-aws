@@ -60,6 +60,8 @@ cd /deployment
 mkdir /deployment/videos/hls
 mkdir /deployment/videos/thumbnails
 touch nginx.conf
+touch docker-compose.yml
+
 ```
 
 ---
